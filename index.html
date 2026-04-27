@@ -3396,9 +3396,15 @@ const screens = {
   // ============================================================
   // ONBOARDING
   // ============================================================
-  onboarding() {
+  onboarding(params = {}) {
+    const isReview = params.review === true;
     return `
       <div class="onboarding">
+        ${isReview ? `
+          <button class="nav-back" data-action="back" aria-label="Tilbake" style="position: absolute; top: 16px; left: 20px;">
+            <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+        ` : ''}
         <div class="onboard-mark">M</div>
         <h1 class="onboard-headline">Medhold er <em>saksbehandler i lomma.</em></h1>
         <p class="onboard-body">Du laster opp et urimelig krav. Vi skriver klagen, sender den, følger opp — og sier fra når du må gjøre noe.</p>
@@ -3423,8 +3429,11 @@ const screens = {
         </ol>
 
         <div class="onboard-actions">
-          <button class="btn btn-primary" data-action="finish-onboarding">Kom i gang</button>
-          <button class="onboard-skip" data-action="finish-onboarding">Hopp over</button>
+          ${isReview
+            ? `<button class="btn btn-primary" data-action="back">Lukk</button>`
+            : `<button class="btn btn-primary" data-action="finish-onboarding">Kom i gang</button>
+               <button class="onboard-skip" data-action="finish-onboarding">Hopp over</button>`
+          }
         </div>
       </div>
     `;
@@ -5585,16 +5594,22 @@ function showLegalModal() {
 
 function showHelpModal() {
   showModal(`
-    <h3>Slik fungerer Medhold</h3>
-    <p>Medhold tar over kjedelige forbrukersaker. Du gjør tre ting — vi gjør resten.</p>
-    <h4>1. Last opp kravet</h4>
-    <p>Bilde, PDF eller skjermbilde. Vi leser det og sjekker faktagrunnlaget.</p>
-    <h4>2. Godkjenn klagen</h4>
-    <p>Vi skriver klagen og viser den til deg. Du sier "ja" eller "endre".</p>
-    <h4>3. Få varsel når noe skjer</h4>
-    <p>Vi følger opp e-poster og frister. Du får beskjed bare når du må ta en beslutning.</p>
+    <h3>Hjelp og spørsmål</h3>
+
+    <button class="profile-row" data-action="show-intro" onclick="closeModal(); router.push('onboarding', { review: true });" style="margin-bottom: 8px;">
+      <span class="label">Slik fungerer Medhold</span>
+      <span class="value">→</span>
+    </button>
+
     <h4>Hva med inkasso?</h4>
     <p>Inkasso behandler vi ikke ennå. Det krever spesiell juridisk håndtering vi vil bygge inn etter at parkering og faktura er stødig.</p>
+
+    <h4>Kan jeg stole på anbefalingene?</h4>
+    <p>Vi gir ærlige anbefalinger basert på erfaringer fra tilsvarende saker — også når det betyr å si "betal heller". Men vi er ikke advokater. For komplekse saker bør du kontakte juridisk hjelp.</p>
+
+    <h4>Er klagene mine private?</h4>
+    <p>Ja. Dokumenter og klagebrev lagres mens saken pågår, og kan slettes fra profilsiden. Vi gir aldri ut din kontaktinformasjon til andre.</p>
+
     <button class="btn btn-secondary" onclick="closeModal()">Lukk</button>
   `);
 }
