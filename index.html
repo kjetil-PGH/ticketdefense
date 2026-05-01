@@ -515,7 +515,8 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; letter-spacing: 
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px 8px 8px;
+  padding: 12px 14px 12px 8px;
+  min-height: 44px;
   border-radius: 100px;
   border: none;
   background: transparent;
@@ -536,7 +537,10 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; letter-spacing: 
   font-weight: 600;
   color: var(--ink-muted);
   cursor: pointer;
-  padding: 8px 4px;
+  padding: 12px 8px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
   user-select: none;
   background: transparent;
   border: none;
@@ -563,15 +567,36 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; letter-spacing: 
 }
 .brand-stamp::after { display: none; }
 
+/* Clickable brand-stamp acts as home button */
+.brand-stamp-btn {
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, border-color 0.15s, transform 0.1s;
+}
+.brand-stamp-btn:hover {
+  background: var(--paper-light);
+}
+.brand-stamp-btn:active {
+  transform: scale(0.97);
+  background: var(--paper-deep);
+}
+
+/* Smaller variant for sub-pages (not home/sent) */
+.brand-stamp-sm {
+  font-size: 11px;
+  padding: 3px 9px;
+  border-width: 1.2px;
+}
+
 .avatar {
-  width: 38px; height: 38px;
-  border-radius: 4px;
+  width: 44px; height: 44px;
+  border-radius: 6px;
   background: var(--ink);
   color: var(--paper-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.04em;
   cursor: pointer;
@@ -4054,6 +4079,60 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; letter-spacing: 
 .letter-paper-close svg { width: 14px; height: 14px; stroke: currentColor; }
 
 /* Consent box, redesigned */
+/* Talk to Margit CTA — sits between letter preview and consent */
+.draft-talk-cta {
+  margin: 16px 24px 16px;
+  padding: 16px 18px;
+  background: var(--paper-light);
+  border: 1.5px dashed var(--rule);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: calc(100% - 48px);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+  font-family: var(--display);
+  text-align: left;
+}
+.draft-talk-cta:hover {
+  background: var(--paper-deep);
+  border-color: var(--ink-muted);
+}
+.draft-talk-cta:active {
+  transform: scale(0.99);
+}
+.draft-talk-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.draft-talk-icon svg { width: 20px; height: 20px; }
+.draft-talk-content { flex: 1; min-width: 0; }
+.draft-talk-title {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+.draft-talk-sub {
+  font-size: 12.5px;
+  color: var(--ink-muted);
+  line-height: 1.35;
+}
+.draft-talk-arrow {
+  width: 16px; height: 16px;
+  color: var(--ink-muted);
+  flex-shrink: 0;
+}
+
 .draft-consent-v5 {
   margin: 0 24px;
   padding: 16px 20px;
@@ -4127,7 +4206,8 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; letter-spacing: 
   text-transform: uppercase;
   color: var(--ink-muted);
   cursor: pointer;
-  padding: 4px;
+  padding: 14px 4px;
+  min-height: 40px;
   background: transparent;
   border: none;
   width: 100%;
@@ -4569,6 +4649,9 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; letter-spacing: 
   color: var(--ink);
   line-height: 1.1;
   margin-bottom: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .profile-card-email {
   font-family: var(--mono);
@@ -4737,6 +4820,40 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; letter-spacing: 
   width: 14px; height: 14px;
   color: var(--ink-faint);
   flex-shrink: 0;
+}
+
+/* Brief flash when fact is updated inline (no re-render) */
+.profile-fact-flash {
+  animation: profileFactFlash 0.8s ease-out;
+}
+@keyframes profileFactFlash {
+  0% { background: rgba(74, 107, 62, 0.15); }
+  100% { background: transparent; }
+}
+
+/* Locked field display in edit modal */
+.fact-locked-value {
+  margin-top: 16px;
+  padding: 14px 16px;
+  background: var(--paper-deep);
+  border-radius: 10px;
+  border: 1px dashed var(--rule);
+}
+.fact-locked-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+  margin-bottom: 4px;
+}
+.fact-locked-text {
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  word-break: break-all;
 }
 
 .profile-actions-list {
@@ -6898,6 +7015,451 @@ h1, h2, h3, h4 { font-family: var(--display); font-weight: 700; letter-spacing: 
 }
 .modal-comm-link:active { color: var(--stamp-red); }
 
+/* ============================================================
+   MARGIT CHAT — talk to Margit about the letter
+   ============================================================ */
+
+/* Tall modal — for chat, lets it take up most of the screen */
+.modal-sheet.modal-tall {
+  height: 90%;
+  max-height: 90%;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.modal-sheet.modal-tall .modal-handle {
+  margin: 12px auto 4px;
+  flex-shrink: 0;
+}
+
+.margit-chat-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
+
+.margit-chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px 14px;
+  border-bottom: 1px dashed var(--rule-dashed);
+  flex-shrink: 0;
+}
+.margit-chat-fig {
+  width: 36px;
+  height: 44px;
+  flex-shrink: 0;
+}
+.margit-chat-fig svg { width: 100%; height: 100%; }
+.margit-chat-meta { flex: 1; min-width: 0; }
+.margit-chat-name {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: 17px;
+  color: var(--ink);
+  letter-spacing: -0.015em;
+}
+.margit-chat-role {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 600;
+  color: var(--stamp-green);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.margit-chat-role::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--stamp-green);
+  display: inline-block;
+}
+.margit-chat-close {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--paper-light);
+  border: 1px solid var(--paper-edge);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-soft);
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.margit-chat-close:hover { background: var(--paper-deep); color: var(--ink); }
+.margit-chat-close svg { width: 16px; height: 16px; }
+
+.margit-chat-body {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  -webkit-overflow-scrolling: touch;
+  min-height: 0;
+}
+
+.margit-msg {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+  max-width: 88%;
+  animation: msgAppear 0.35s var(--paper-fall);
+}
+@keyframes msgAppear {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.margit-msg-margit {
+  align-self: flex-start;
+}
+.margit-msg-user {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.margit-msg-fig {
+  width: 28px;
+  height: 34px;
+  flex-shrink: 0;
+  margin-bottom: 4px;
+}
+.margit-msg-fig svg { width: 100%; height: 100%; }
+
+.margit-msg-bubble {
+  background: var(--paper-light);
+  border: 1px solid var(--paper-edge);
+  border-radius: 14px 14px 14px 4px;
+  padding: 10px 14px;
+  font-family: var(--display);
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink);
+  box-shadow: 0 1px 0 var(--paper-edge);
+}
+.margit-msg-bubble em {
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.margit-msg-bubble-user {
+  background: var(--ink);
+  color: var(--paper-light);
+  border-color: var(--ink);
+  border-radius: 14px 14px 4px 14px;
+}
+
+.margit-msg-verdict {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed var(--rule-dashed);
+}
+.verdict-green { color: var(--stamp-green); }
+.verdict-red { color: var(--stamp-red); }
+.verdict-amber { color: var(--stamp-amber); }
+.verdict-ink { color: var(--ink-muted); }
+
+/* Typing indicator */
+.margit-typing-bubble {
+  padding: 14px 16px;
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+.margit-typing-bubble span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ink-muted);
+  animation: typingDot 1.2s infinite ease-in-out;
+}
+.margit-typing-bubble span:nth-child(2) { animation-delay: 0.15s; }
+.margit-typing-bubble span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes typingDot {
+  0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+  30% { opacity: 1; transform: translateY(-3px); }
+}
+
+/* Suggestion chips */
+.margit-chat-suggestions {
+  flex-shrink: 0;
+  display: flex;
+  gap: 6px;
+  padding: 8px 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  border-top: 1px dashed var(--rule-dashed);
+}
+.margit-chat-suggestions::-webkit-scrollbar { display: none; }
+.margit-suggestion-chip {
+  flex-shrink: 0;
+  padding: 11px 14px;
+  min-height: 40px;
+  background: var(--paper-light);
+  border: 1px solid var(--paper-edge);
+  border-radius: 100px;
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+.margit-suggestion-chip:hover {
+  background: var(--paper-deep);
+  color: var(--ink);
+}
+
+/* Input row */
+.margit-chat-input-row {
+  flex-shrink: 0;
+  display: flex;
+  gap: 8px;
+  padding: 12px 16px 18px;
+  background: var(--paper);
+  border-top: 1px solid var(--paper-edge);
+  align-items: center;
+}
+.margit-chat-input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 16px;
+  border: 1.5px solid var(--paper-edge);
+  border-radius: 100px;
+  font-family: var(--display);
+  font-size: 14.5px;
+  background: var(--paper-light);
+  color: var(--ink);
+  transition: border-color 0.15s;
+  outline: none;
+}
+.margit-chat-input:focus {
+  border-color: var(--ink);
+  background: white;
+}
+.margit-chat-input::placeholder {
+  color: var(--ink-faint);
+}
+.margit-chat-send {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--paper-light);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.1s, background 0.15s;
+}
+.margit-chat-send:active { transform: scale(0.92); }
+.margit-chat-send svg { width: 18px; height: 18px; }
+
+/* Apply-action button inside Margit message */
+.margit-msg-actions {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--rule-dashed);
+}
+.margit-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 12px;
+  background: var(--ink);
+  color: var(--paper-light);
+  border: none;
+  border-radius: 100px;
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: transform 0.1s, background 0.15s;
+}
+.margit-action-btn:hover { background: var(--ink-soft); }
+.margit-action-btn:active { transform: scale(0.97); }
+.margit-action-btn svg {
+  width: 12px;
+  height: 12px;
+  flex-shrink: 0;
+  stroke: currentColor;
+}
+
+.margit-msg-applied {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--rule-dashed);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--stamp-green);
+}
+.margit-msg-applied span {
+  flex: 1;
+}
+.margit-msg-applied svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+  flex-shrink: 0;
+}
+.margit-msg-undo {
+  margin-left: auto;
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 100px;
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.margit-msg-undo:hover {
+  background: var(--paper-deep);
+  color: var(--ink);
+  border-color: var(--ink-muted);
+}
+.margit-msg-undo:active {
+  transform: scale(0.95);
+}
+
+/* Editable paragraph affordance — subtle, only on hover/tap */
+.letter-paragraph-editable {
+  cursor: text;
+  position: relative;
+  border-radius: 2px;
+  padding: 4px 6px;
+  margin: -4px -6px;
+  transition: background 0.15s;
+}
+.letter-paragraph-editable:hover {
+  background: rgba(28, 22, 18, 0.04);
+}
+.letter-paragraph-editable:active {
+  background: rgba(28, 22, 18, 0.08);
+}
+
+/* Tiny edit icon appears on hover */
+.letter-paragraph-editable::after {
+  content: "";
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 14px;
+  height: 14px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231c1612' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'/><path d='m18.5 2.5 3 3L12 15l-4 1 1-4z'/></svg>");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.15s;
+  pointer-events: none;
+}
+.letter-paragraph-editable:hover::after {
+  opacity: 0.4;
+}
+
+/* Paragraph edit textarea */
+.paragraph-edit-textarea {
+  width: 100%;
+  min-height: 100px;
+  max-height: 300px;
+  padding: 14px 16px;
+  border: 1.5px solid var(--paper-edge);
+  border-radius: 10px;
+  font-family: 'Georgia', serif;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: white;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.15s;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.paragraph-edit-textarea:focus {
+  border-color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(28, 22, 18, 0.08);
+}
+.paragraph-edit-hint {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-muted);
+}
+
+/* Delete paragraph button — destructive, separated visually */
+.paragraph-edit-delete {
+  margin-top: 10px;
+  padding: 12px 14px;
+  background: transparent;
+  color: var(--stamp-red);
+  border: 1px solid rgba(168, 57, 44, 0.3);
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  transition: background 0.15s, border-color 0.15s;
+}
+.paragraph-edit-delete:hover {
+  background: rgba(168, 57, 44, 0.05);
+  border-color: var(--stamp-red);
+}
+.paragraph-edit-delete:active {
+  background: rgba(168, 57, 44, 0.1);
+}
+.paragraph-edit-delete svg {
+  width: 14px; height: 14px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 380px) {
+  .margit-chat-header { padding: 8px 14px 12px; }
+  .margit-chat-body { padding: 12px 14px; }
+  .margit-chat-input-row { padding: 10px 12px 14px; }
+  .margit-chat-suggestions { padding: 6px 12px; }
+  .margit-suggestion-chip { font-size: 12px; }
+  .margit-msg-bubble { font-size: 13.5px; padding: 9px 12px; }
+}
+
 .modal-sheet p {
   font-family: var(--display);
   font-size: 14px;
@@ -7590,9 +8152,32 @@ function loadState() {
   return JSON.parse(JSON.stringify(defaultState));
 }
 
+let _saveStateWarnedQuota = false;
 function saveState() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
-  catch (e) { console.warn('Save fail:', e); }
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  } catch (e) {
+    // Handle quota exceeded (e.g. private mode, full disk)
+    if (e.name === 'QuotaExceededError' || e.code === 22 || e.code === 1014) {
+      // Try cleanup: remove undo-stacks (largest non-essential data)
+      try {
+        if (state.cases) {
+          state.cases.forEach(c => { delete c._letterUndoStack; });
+        }
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e2) {
+        // Still fails — show user a one-time warning
+        if (!_saveStateWarnedQuota) {
+          _saveStateWarnedQuota = true;
+          if (typeof showToast === 'function') {
+            showToast('Lagringsplass full. Slett gamle saker for å fortsette.', 4000);
+          }
+        }
+      }
+    } else {
+      console.warn('Save fail:', e);
+    }
+  }
 }
 
 function resetState() {
@@ -8806,7 +9391,7 @@ const screens = {
             ${unreadCount > 0 ? '<span class="badge" aria-hidden="true"></span>' : ''}
           </button>
         </div>
-        <div class="brand-stamp" aria-label="Medhold">MEDHOLD</div>
+        <button class="brand-stamp brand-stamp-btn" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
         <div class="header-right">
           <button class="avatar" data-action="open-profile" aria-label="Min profil">${initials}</button>
         </div>
@@ -8833,7 +9418,7 @@ const screens = {
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Tilbake
         </button>
-        <div></div>
+        <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
         <div></div>
       </div>
 
@@ -9075,7 +9660,7 @@ const screens = {
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Hjem
         </button>
-        <div></div>
+        <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
         <button class="nav-action" data-action="show-fields-help">Hjelp</button>
       </div>
 
@@ -9186,7 +9771,7 @@ const screens = {
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Hjem
         </button>
-        <div></div>
+        <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
         <div></div>
       </div>
 
@@ -9271,7 +9856,7 @@ const screens = {
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Tilbake
         </button>
-        <div></div>
+        <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
         <button class="nav-action" data-action="show-help">Hjelp</button>
       </div>
 
@@ -9351,9 +9936,13 @@ const screens = {
               ${escapeHtml(letter.subject)} <span class="ref">— ${escapeHtml(letter.reference)}</span>
             </div>
             <div class="letter-body-block">
-              ${letter.paragraphs.map(p => {
-                if (typeof p === 'string') return `<p>${escapeHtml(p)}</p>`;
-                if (p.type === 'bullets') return `<ul class="bullets">${p.items.map(i => `<li>${escapeHtml(i)}</li>`).join('')}</ul>`;
+              ${letter.paragraphs.map((p, idx) => {
+                if (typeof p === 'string') {
+                  return `<p class="letter-paragraph-editable" data-edit-idx="${idx}" data-edit-case="${c.id}" role="button" tabindex="0" aria-label="Trykk for å redigere">${escapeHtml(p)}</p>`;
+                }
+                if (p.type === 'bullets') {
+                  return `<ul class="bullets letter-paragraph-editable" data-edit-idx="${idx}" data-edit-case="${c.id}" role="button" tabindex="0" aria-label="Trykk for å redigere">${p.items.map(i => `<li>${escapeHtml(i)}</li>`).join('')}</ul>`;
+                }
                 return '';
               }).join('')}
             </div>
@@ -9364,6 +9953,20 @@ const screens = {
             </div>
           </div>
         </div>
+
+        <!-- Talk to Margit about the letter -->
+        <button class="draft-talk-cta" data-action="open-margit-chat" data-id="${c.id}">
+          <div class="draft-talk-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/>
+            </svg>
+          </div>
+          <div class="draft-talk-content">
+            <div class="draft-talk-title">Snakk med Margit om brevet</div>
+            <div class="draft-talk-sub">Endre tone, fakta eller strategi før du sender</div>
+          </div>
+          <svg class="draft-talk-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
 
         <!-- Consent box, smaller and more elegant -->
         <div class="draft-consent-v5">
@@ -9429,7 +10032,7 @@ const screens = {
     return `
       <div class="app-header-row">
         <div></div>
-        <div class="brand-stamp">MEDHOLD</div>
+        <button class="brand-stamp brand-stamp-btn" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
         <button class="nav-action" data-action="back-to-home">Hjem</button>
       </div>
 
@@ -9473,8 +10076,8 @@ const screens = {
         </div>
 
         <div class="sent-actions-v5">
-          <button class="btn btn-primary" data-action="open-case-from-sent" data-id="${c.id}">Se saken</button>
-          <button class="btn btn-ghost" data-action="back-to-home">Til hjem</button>
+          <button class="btn btn-primary" data-action="back-to-home">Til hjem</button>
+          <button class="btn btn-ghost" data-action="open-case-from-sent" data-id="${c.id}">Se saken</button>
         </div>
       </div>
     `;
@@ -9573,7 +10176,7 @@ const screens = {
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Tilbake
         </button>
-        <div></div>
+        <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
         <button class="nav-action" data-action="show-comm-history" data-id="${c.id}">Brev</button>
       </div>
 
@@ -9669,7 +10272,7 @@ const screens = {
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Tilbake
         </button>
-        <div></div>
+        <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
         <div></div>
       </div>
 
@@ -9727,7 +10330,7 @@ const screens = {
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Tilbake
         </button>
-        <div></div>
+        <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
         <div></div>
       </div>
 
@@ -9803,7 +10406,7 @@ const screens = {
             <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
             Hjem
           </button>
-          <div></div>
+          <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
           <div></div>
         </div>
 
@@ -9871,7 +10474,7 @@ const screens = {
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Hjem
         </button>
-        <div></div>
+        <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
         <div></div>
       </div>
 
@@ -9958,7 +10561,7 @@ const screens = {
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Tilbake
         </button>
-        <div></div>
+        <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
         <div></div>
       </div>
 
@@ -10074,7 +10677,7 @@ const screens = {
             <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
             Tilbake
           </button>
-          <div></div>
+          <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
           <div></div>
         </div>
         <div class="notif-empty-v5">
@@ -10095,7 +10698,7 @@ const screens = {
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Tilbake
         </button>
-        <div></div>
+        <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
         ${unreadCount > 0 ? `<button class="nav-action" data-action="mark-all-read">Marker alle</button>` : '<div></div>'}
       </div>
 
@@ -10167,7 +10770,7 @@ const screens = {
           <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
           Tilbake
         </button>
-        <div></div>
+        <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
         <div></div>
       </div>
 
@@ -10328,7 +10931,7 @@ function _recommendationComplain(c) {
         <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
         Tilbake
       </button>
-      <div></div>
+      <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
       <div></div>
     </div>
 
@@ -10392,7 +10995,7 @@ function _recommendationPay(c) {
         <svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
         Tilbake
       </button>
-      <div></div>
+      <button class="brand-stamp brand-stamp-btn brand-stamp-sm" data-action="back-to-home" aria-label="Til hjem">MEDHOLD</button>
       <div></div>
     </div>
 
@@ -10629,9 +11232,10 @@ function simulateOpponentResponse() {
 // ============================================================
 // MODALS
 // ============================================================
-function showModal(content) {
+function showModal(content, options = {}) {
   const modal = document.getElementById('modal');
   const sheet = document.getElementById('modal-content');
+  sheet.className = 'modal-sheet' + (options.tall ? ' modal-tall' : '');
   sheet.innerHTML = `<div class="modal-handle"></div>${content}`;
   modal.classList.add('show');
   modal.setAttribute('aria-hidden', 'false');
@@ -10641,6 +11245,17 @@ function closeModal() {
   const modal = document.getElementById('modal');
   modal.classList.remove('show');
   modal.setAttribute('aria-hidden', 'true');
+  
+  // If we were in Margit chat and applied changes, re-render draft to show updates
+  if (window._activeMargitChatCaseId) {
+    const wasOnDraft = router.currentScreen?.name === 'draft';
+    const caseId = window._activeMargitChatCaseId;
+    window._activeMargitChatCaseId = null;
+    if (wasOnDraft) {
+      // Re-render draft to show highlighted changes
+      setTimeout(() => router.reset('draft', { id: caseId }), 350);
+    }
+  }
 }
 
 document.getElementById('modal').addEventListener('click', (e) => {
@@ -10754,6 +11369,11 @@ function showFieldsHelpModal() {
 function showSendConfirmModal(id) {
   const c = getCase(id);
   if (!c) return;
+  // Ensure letter exists — generate if not
+  if (!c.sentLetter) {
+    c.sentLetter = generateComplaintLetter(c, state.user);
+    saveState();
+  }
   showModal(`
     <div class="modal-eyebrow" style="color: var(--stamp-red);">★ BEKREFT FØR JEG SENDER ★</div>
     <h3>Send brevet?</h3>
@@ -10781,6 +11401,1154 @@ function showSendConfirmModal(id) {
     </div>
   `);
 }
+
+// ============================================================
+// MARGIT CHAT — talk to Margit about the letter
+// ============================================================
+
+/**
+ * Margit's response engine. In production this would be an LLM with
+ * a careful system prompt. Here we pattern-match user input to one of
+ * 15+ pre-written scenarios that demonstrate Margit's principles:
+ *   - Honest (won't agree to lies/exaggerations)
+ *   - Strategic (explains why something works or doesn't)
+ *   - Constructive (offers alternatives when declining)
+ *   - Plain-spoken (no legalese, no fluff)
+ */
+const MARGIT_RESPONSES = [
+  // ════════════════════════════════════════════════
+  //  CATEGORY: HONESTY / NEVER LIE
+  // ════════════════════════════════════════════════
+  {
+    match: /(løg|løy|jukse|fak|usann|falsk|fabriker)/i,
+    verdict: 'no',
+    response: 'Det kan jeg ikke. Hvis det avsløres at vi har skrevet noe usant, mister vi all troverdighet — og motparten får et legitimt grunnlag for å avvise hele klagen. La oss bygge på det som faktisk er sant. Hva er den reelle situasjonen?'
+  },
+  {
+    match: /(si|skriv|legg til) at jeg (ikke|aldri) (s(å|ett|e)|fikk|hadde|var|gjorde|visste)/i,
+    verdict: 'no',
+    response: 'Hvis det stemmer at du ikke så/fikk/visste det, kan vi absolutt skrive det. Men jeg trenger å være sikker på at det er sant — for hvis motparten kan motbevise det, ryker hele klagen. Stemmer det eller var det noe annet?'
+  },
+  {
+    match: /(skjul|hold tilbake|ikke nevn).{0,30}(at|jeg|det)/i,
+    verdict: 'partial',
+    response: 'Jeg trenger ikke å nevne alt — bare det som er relevant for klagegrunnlaget. Men hvis motparten spør direkte, kan vi ikke benekte fakta. Hva er det du tenker på å holde tilbake? La meg vurdere om det er strategisk eller risikabelt.'
+  },
+  
+  // ════════════════════════════════════════════════
+  //  CATEGORY: UNREASONABLE DEMANDS
+  // ════════════════════════════════════════════════
+  {
+    match: /(krev|skriv|bør|vil) ?(jeg )?(ha|få|få med)? ?erstatning|krever erstatning|millioner|kompensasjon for ulemp/i,
+    verdict: 'no',
+    response: 'Du har ikke rettslig grunnlag for erstatning her — vi bestrider et krav, ikke et tap. Hvis vi krever erstatning og taper, kan motparten avvise alt under ett. La oss holde fokus på å få selve kravet frafalt.'
+  },
+  {
+    match: /(0 kr|null kroner|gratis|ingenting|skal ikke betale noe)/i,
+    verdict: 'partial',
+    response: 'Målet med klagen er nettopp å få kravet frafalt — så ja, ideelt sett betaler du 0 kr. Men det er saksbehandleren hos motparten som avgjør. Vi argumenterer best ved å vise at kravet mangler grunnlag, ikke ved å diktere utfallet.'
+  },
+  {
+    match: /(unnskyl|beklag|skrive seg|krymp).{0,20}(motpart|de skal|de må)/i,
+    verdict: 'no',
+    response: 'Vi kan ikke kreve at de skal beklage. Det vi kan kreve er at de frafaller kravet og dokumenterer beslutningen. Det er det som faktisk hjelper deg.'
+  },
+
+  // ════════════════════════════════════════════════
+  //  CATEGORY: PRESSURE TACTICS / THREATS
+  // ════════════════════════════════════════════════
+  {
+    match: /(gå til|true.{0,10}med|true.{0,10}om).{0,30}(presse|aviser|media|nrk|vg|dagbla|tv ?2)/i,
+    verdict: 'no',
+    response: 'Trusler om presse virker sjelden på dette stadiet — det får motparten i forsvarsposisjon og lukker døren for pragmatisk løsning. Vi får mer gjennomslag ved å være saklig og bestemt. Hvis de avviser klagen, kan vi alltid eskalere — først til klagenemnd, ikke direkte til presse.'
+  },
+  {
+    match: /(saksøk|domstol|stevn|rettssak).{0,20}(true|skriv|nevn)/i,
+    verdict: 'no',
+    response: 'Trusler om søksmål virker bare hvis de er reelle. Verdien her er for lav til at det er økonomisk fornuftig å gå til retten. Motparten vet det, og en tom trussel svekker oss. La oss heller bygge en god klage.'
+  },
+  {
+    match: /(boikott|aldri handle|aldri parker|ikke kunde mer)/i,
+    verdict: 'partial',
+    response: 'Personlige boikott-trusler har sjelden effekt på en saksbehandler. De får ofte hundrevis av klager — én misfornøyd kunde flytter ikke nålen. Det som *kan* fungere er å nevne lojaliteten din neutralt: "Jeg har vært kunde i X år." Vil du legge det til?',
+    action: 'add-loyalty'
+  },
+
+  // ════════════════════════════════════════════════
+  //  CATEGORY: IDENTITY / IMPERSONATION
+  // ════════════════════════════════════════════════
+  {
+    match: /(skriv|si|nevn).{0,30}(advokat|jurist|juridisk representant|representerer)/i,
+    verdict: 'no',
+    response: 'Nei, det vil være villedende. Medhold er ikke advokat — vi bistår i klageprosessen, men brevet sendes i ditt navn som privatperson. Hvis vi feilaktig fremstiller meg som advokat, kan det få juridiske konsekvenser for deg.'
+  },
+  {
+    match: /(forbrukerrådet|forbrukertilsynet|consumeroms).{0,20}(skriv|nevn|legg til)/i,
+    verdict: 'partial',
+    response: 'Vi kan nevne at saken kan eskaleres til Forbrukertilsynet hvis kravet ikke frafalles — det er saklig og sant. Men vi sier ikke at de allerede er involvert hvis det ikke stemmer. Skal jeg legge til en setning om eskalering?',
+    action: 'add-escalation-note'
+  },
+
+  // ════════════════════════════════════════════════
+  //  CATEGORY: TONE
+  // ════════════════════════════════════════════════
+  {
+    match: /(mer )?bestemt|sterkere|hardere|tøffere|krevende|skarpere|mer kraft/i,
+    verdict: 'partial',
+    response: 'Jeg kan gjøre brevet mer bestemt — men ikke aggressivt. Den beste tonen i klagebrev er <em>rolig autoritet</em>: tydelige fakta, konkrete krav, ingen sinte adjektiver. Skal jeg endre formuleringer fra "ber jeg om" til "krever jeg" der det er passende?',
+    action: 'tone-firmer',
+    actionLabel: 'Ja, gjør det mer bestemt'
+  },
+  {
+    match: /(aggressiv|sint|truende|harme|vred|rasen)/i,
+    verdict: 'no',
+    response: 'Aggressiv tone fungerer ikke i klagebrev. Saksbehandlere er trent til å lukke seg når de føler seg angrepet. Det som faktisk gir gjennomslag er fakta, kalde nerver, og konkrete krav. Brevet ditt er allerede skrevet i den tonen — la oss holde den.'
+  },
+  {
+    match: /(mindre|mykere|venn|hyggelig|mer vennlig|imøtekommende|snill)/i,
+    verdict: 'partial',
+    response: 'Brevet er allerede saklig og høflig. Men jeg kan myke det opp — kanskje med å åpne med å anerkjenne at de har en jobb å gjøre. Det fungerer godt hvis du tror du kommer til å trenge dialog senere. Skal jeg gjøre det?',
+    action: 'tone-softer',
+    actionLabel: 'Ja, gjør den mykere'
+  },
+  {
+    match: /(formel|formell|profesjon|seriø)/i,
+    verdict: 'partial',
+    response: 'Brevet er allerede skrevet i formell stil. Men jeg kan gjøre det enda mer juridisk — med klarere referanser til lov- og forskriftsgrunnlag. Vil du det?',
+    action: 'tone-formal',
+    actionLabel: 'Ja, gjør den mer juridisk'
+  },
+
+  // ════════════════════════════════════════════════
+  //  CATEGORY: ADD CONTENT
+  // ════════════════════════════════════════════════
+  {
+    match: /(legg(e)? til|inkluder|nevn|ta med|har|jeg har).{0,40}(bilde|foto|dokument|kvittering|bevis|e-?post|epost|sms|skjermbilde|video)/i,
+    verdict: 'yes',
+    response: 'Bra. Dokumentasjon styrker saken vesentlig — særlig her, der vi argumenterer for at motparten ikke har bevist sin side. Skal jeg legge til en setning om at du har dokumentasjon tilgjengelig og kan ettersende på forespørsel?',
+    action: 'add-evidence',
+    actionLabel: 'Ja, legg til dokumentasjon'
+  },
+  {
+    match: /(kunde|lojal|i mange år|lenge|trofast|stamkunde|abonnent)/i,
+    verdict: 'partial',
+    response: 'Det er ikke juridisk relevant, men kan ha psykologisk effekt — bedrifter er ofte mer fleksible mot lojale kunder. Skal jeg legge til en kort setning som "Jeg har vært kunde siden [år] og setter pris på et godt forhold"?',
+    action: 'add-loyalty',
+    actionLabel: 'Ja, legg til'
+  },
+  {
+    match: /(første gang|aldri tidligere|aldri klaget|plettfri|aldri fått)/i,
+    verdict: 'partial',
+    response: 'Det er ikke juridisk relevant, men kan vise saksbehandleren at du ikke er en serieklager. Skal jeg legge til en setning om at dette er første gang du klager?',
+    action: 'add-firsttime',
+    actionLabel: 'Ja, legg til'
+  },
+  {
+    match: /(pensjon|ufør|sykd|trygd|enslig|alenefor|student|arbeidslø|dårlig råd|ikke råd)/i,
+    verdict: 'partial',
+    response: 'Personlige forhold er ikke et juridisk argument — kravet er gyldig eller ikke uavhengig av økonomi. Men hvis vi taper, kan du søke om <em>betalingsutsettelse</em> eller <em>nedsettelse</em> hos kreditor på grunnlag av økonomi. Skal vi holde det åpent som plan B?'
+  },
+
+  // ════════════════════════════════════════════════
+  //  CATEGORY: FACT CORRECTIONS
+  // ════════════════════════════════════════════════
+  {
+    match: /(feil|riktig|korrekt|endre|rett opp).{0,30}(dato|tid|sted|adresse|beløp|nummer)|datoen var|det var ikke|stemmer ikke/i,
+    verdict: 'yes',
+    response: 'God observasjon. Faktafeil i klagen kan gi motparten grunn til å avvise hele brevet. Si meg konkret hva som er riktig, så oppdaterer jeg det med en gang.'
+  },
+  {
+    match: /(feilstavet|skrev navnet|stavet feil|uten -?e|min e|navnet mitt)/i,
+    verdict: 'yes',
+    response: 'Si fra hva som er riktig stavemåte, så endrer jeg det. Riktig navn er viktig — særlig for at motparten skal koble klagen til riktig sak.'
+  },
+
+  // ════════════════════════════════════════════════
+  //  CATEGORY: LEGAL REFERENCES
+  // ════════════════════════════════════════════════
+  {
+    match: /(parag|paragraf|lov|forskrift|forbrukerkjøps|markedsføring)/i,
+    verdict: 'partial',
+    response: 'Brevet refererer allerede til relevant lovgrunnlag for denne sakstypen. Hvis du vil at jeg skal legge til en spesifikk paragraf, si fra hvilken — men husk at for mange juridiske referanser kan virke truende på dette stadiet. Saksbehandlere kjenner loven; vi trenger ikke å belære dem.'
+  },
+  {
+    match: /(klagenemnd|forbrukertilsynet|nemnd|forbrukerklagenemnda|parkeringsklagenemnda)/i,
+    verdict: 'yes',
+    response: 'Det er smart å nevne at klagenemnden er et neste steg hvis kravet ikke frafalles. Det er saklig og sant — og signaliserer at du vet hva du gjør. Skal jeg legge til en setning om eskalering?',
+    action: 'add-escalation-note',
+    actionLabel: 'Ja, legg det til'
+  },
+
+  // ════════════════════════════════════════════════
+  //  CATEGORY: STRUCTURE / LENGTH
+  // ════════════════════════════════════════════════
+  {
+    match: /(legg til.{0,5}mer|mer detalj|lengre|utfylle|forklare mer|skriv mer|utdyp)/i,
+    verdict: 'partial',
+    response: 'Korte brev får oftere medhold enn lange. Saksbehandlere har 5-10 minutter per sak — lange brev hopper de over de vesentligste argumentene i. Hva er det konkret du vil utdype? Da vurderer jeg om det styrker eller svekker.'
+  },
+  {
+    match: /(kortere|færre ord|forenkle|kutt ned|trim|for langt)/i,
+    verdict: 'partial',
+    response: 'Brevet er allerede ganske kompakt. Hvis det er en spesifikk del du synes er overflødig, si fra hvilken. Hvert avsnitt har en juridisk funksjon — fjerner vi for mye, mister vi grunnlaget.'
+  },
+  {
+    match: /(omformuler|skriv om|annerledes|på annen måte)/i,
+    verdict: 'neutral',
+    response: 'Hvilken del? Si fra hvilken setning eller avsnitt du vil ha annerledes, så omformulerer jeg.'
+  },
+
+  // ════════════════════════════════════════════════
+  //  CATEGORY: STRATEGIC ADVICE
+  // ════════════════════════════════════════════════
+  {
+    match: /(burde|skal jeg|er det smart|lurt|dum|riktig|godt råd|hva.{0,5}råder|anbefaler du)/i,
+    verdict: 'neutral',
+    response: 'Kom med det konkrete forslaget, så vurderer jeg det basert på saken din. Generelt: hold deg til fakta, vær saklig, krev kun det du har grunnlag for. Det vinner flest saker.'
+  },
+  {
+    match: /(sjanse|sannsynlig|vinne|tape|hvor stor)/i,
+    verdict: 'neutral',
+    response: 'Basert på sakstypen og det vi har dokumentert, er sjansene rimelige. Men jeg kan ikke garantere noe — det avhenger av saksbehandleren hos motparten og hvor villig de er til å se på saken på nytt. Vi gjør vårt beste.'
+  },
+  {
+    match: /(hva skjer hvis|hva om de|hvis de avviser|hvis de sier nei)/i,
+    verdict: 'neutral',
+    response: 'Hvis de avviser klagen, varsler jeg deg. Da kan vi enten eskalere til klagenemnd (gratis, ny vurdering) eller akseptere kravet. Du bestemmer. Du er ikke alene i prosessen.'
+  },
+  {
+    match: /(hvor lang tid|når svar|hvor lenge|hvor raskt|frist)/i,
+    verdict: 'neutral',
+    response: 'Motparten har vanligvis 4-10 uker på seg. Jeg passer på fristen og varsler deg når det skjer noe. I mellomtiden trenger du ikke gjøre noe.'
+  },
+
+  // ════════════════════════════════════════════════
+  //  CATEGORY: AFFIRMATIONS / CONFIRMATIONS
+  // ════════════════════════════════════════════════
+  {
+    match: /^(ja|jepp|absolutt|kjør på|gjør det|ok|greit)( |\.|!|,|$)/i,
+    verdict: 'neutral',
+    response: 'Greit. Si meg hva du vil endre, så gjør jeg det.'
+  },
+  {
+    match: /^(nei|nope|ikke|drit i)( |\.|!|,|$)/i,
+    verdict: 'neutral',
+    response: 'OK. Noe annet du tenker på?'
+  },
+  {
+    match: /(bra|fint|perfekt|godt|takk|fornøyd|ser bra ut|ser riktig ut|ser greit ut|klart)/i,
+    verdict: 'yes',
+    response: 'Bra. Hvis du er fornøyd, kan vi sende. Du kan alltid stoppe saken senere hvis noe endrer seg.'
+  },
+  {
+    match: /(hva mer|noe mer|annet|videre)/i,
+    verdict: 'neutral',
+    response: 'Det er fakta, tone, og strategi. Jeg har skrevet basert på det du har lastet opp — hvis du har mer kontekst (e-post, kvitteringer, spesielle omstendigheter), si fra. Ellers er brevet klart.'
+  },
+
+  // ════════════════════════════════════════════════
+  //  CATEGORY: META / ABOUT MARGIT
+  // ════════════════════════════════════════════════
+  {
+    match: /(hvem er du|hva er du|er du.{0,5}(menn|robot|ai|bot))/i,
+    verdict: 'neutral',
+    response: 'Jeg er Margit, saksbehandleren din her hos Medhold. Jeg leser dokumenter, vurderer dem ærlig, og skriver klagebrev i ditt navn. Jeg er ikke advokat — jeg bistår i klageprosessen.'
+  },
+  {
+    match: /(koste|pris|gratis|hvor mye|betal)/i,
+    verdict: 'neutral',
+    response: 'Å skrive og sende klagen koster ingenting for deg her. Hvis vi vinner, sparer du beløpet. Hvis vi taper, har du ikke betalt for noe — du betaler bare det opprinnelige kravet.'
+  },
+  
+  // ════════════════════════════════════════════════
+  //  CATEGORY: SPECIFIC SITUATIONS
+  // ════════════════════════════════════════════════
+  {
+    match: /(p-bot|parkeringsbot|kontrollavgift|kontrollsanksjon|p-skiv|parkeringsbevis)/i,
+    verdict: 'neutral',
+    response: 'Brevet er allerede tilpasset parkeringssaker — vi argumenterer ut fra parkeringsforskriften. Hvis det er noe spesielt med din sak (f.eks. uklar skilting, defekt automat, eller ugyldig kontroll), si fra så styrker jeg argumentet.'
+  },
+  {
+    match: /(automat|skilt.{0,10}(virk|ute av drift|defekt)|p-aut)/i,
+    verdict: 'yes',
+    response: 'Defekt parkeringsautomat eller mangelfull skilting er sterke argumenter — det betyr at vilkårene for kontrollsanksjon ikke var oppfylt. Hvis du har bilde eller kan dokumentere det, blir saken mye sterkere. Si fra hva du har.'
+  },
+  {
+    match: /(elbil|hc-?plass|handikap|rullestol|forflyt)/i,
+    verdict: 'neutral',
+    response: 'Hvis du har gyldig elbil-status eller HC-bevis og dette ikke er hensyntatt, har du sterk sak. Si fra hva som gjelder, så bygger jeg argumentet rundt det.'
+  },
+  
+  // ════════════════════════════════════════════════
+  //  CATEGORY: REGRET / WANT TO STOP
+  // ════════════════════════════════════════════════
+  {
+    match: /(angre|stopp|trekke|trekk tilbake|ikke send|avbryt|glem det)/i,
+    verdict: 'neutral',
+    response: 'Du kan stoppe når som helst — bare lukk samtalen og trykk "Tilbake". Brevet er ikke sendt før du trykker "Godkjenn og send". Vil du heller bare betale kravet og avslutte? Si fra, så hjelper jeg deg med det.'
+  },
+  {
+    match: /(usikker|vet ikke|er ikke sikker|tør ikke|tvil)/i,
+    verdict: 'neutral',
+    response: 'Det er greit å være usikker. Klagen er gratis, og hvis vi taper, betaler du bare det opprinnelige kravet — ingen ekstra kostnad. Hva er det du tviler på? Strategi, tone eller om du i det hele tatt har en sak?'
+  },
+  
+  // ════════════════════════════════════════════════
+  //  CATEGORY: PRACTICAL QUESTIONS
+  // ════════════════════════════════════════════════
+  {
+    match: /(send.{0,10}(når|hvor)|hvordan send|når blir|går brevet)/i,
+    verdict: 'neutral',
+    response: 'Brevet sendes umiddelbart når du trykker "Godkjenn og send". Du får en kvittering i Sak-skjermen. Motparten har normalt 4–10 uker på seg å svare — jeg passer på fristen og varsler deg.'
+  },
+  {
+    match: /(svar.{0,10}fra|hva.{0,5}skjer|hvordan ser jeg)/i,
+    verdict: 'neutral',
+    response: 'Når motparten svarer, får du varsel. Da hjelper jeg deg med å vurdere svaret og bestemme neste steg — godta, avvise, eller eskalere til klagenemnd. Du tar avgjørelsen, jeg gir deg fakta.'
+  },
+  {
+    match: /(personnummer|fødselsnummer|fnr|personid)/i,
+    verdict: 'no',
+    response: 'Vi trenger ikke personnummer for å sende klagen. BankID-verifisering er nok. Personnummer ber vi kun om hvis saken må eskaleres til en klagenemnd som krever det. Aldri send personnummer i brev — det er sikkerhetsrisiko.'
+  },
+  {
+    match: /(kopi|sende kopi|cc|ettersend)/i,
+    verdict: 'partial',
+    response: 'Du får automatisk kopi av brevet i Sak-skjermen. Hvis du vil sende kopi til en annen instans (f.eks. Forbrukertilsynet), kan vi nevne det i brevet — men gjør det bare hvis det er strategisk lurt. Vil du jeg legger til at saken kan eskaleres?',
+    action: 'add-escalation-note',
+    actionLabel: 'Ja, nevn eskalering'
+  },
+  
+  // ════════════════════════════════════════════════
+  //  CATEGORY: EMOTIONAL / FRUSTRATED
+  // ════════════════════════════════════════════════
+  {
+    match: /(urettferdig|frustrer|sint|opprørt|provoser|lei meg|teit|dum|tåpelig|feigt)/i,
+    verdict: 'neutral',
+    response: 'Jeg forstår at det føles urettferdig. Men brevet bør være saklig og kjølig — det er det som vinner saker. Sinne i klagebrev gir ofte motsatt effekt. La oss bygge en sterk, rolig argumentasjon basert på fakta. Du får sagt det du føler — bare ikke i selve brevet.'
+  },
+  {
+    match: /(takk|tusen takk|setter pris)/i,
+    verdict: 'neutral',
+    response: 'Bare hyggelig. Si fra hvis det er noe mer.'
+  },
+  
+  // ════════════════════════════════════════════════
+  //  CATEGORY: TYPOS / CASUAL
+  // ════════════════════════════════════════════════
+  {
+    match: /^(hei|hallo|halla|hello|yo|tjena)( |\.|!|,|$)/i,
+    verdict: 'neutral',
+    response: 'Hei. Vil du jeg skal endre noe i brevet? Tone, fakta eller strategi — bare si fra.'
+  },
+  {
+    match: /(hjelp|hjelpe|skjønner|forstår.{0,10}ikke|ikke skjønn)/i,
+    verdict: 'neutral',
+    response: 'Selvsagt. Jeg er her for å hjelpe. Hva er du usikker på? Hvis det er om brevet er bra nok — det er det. Hvis det er om hva du skal gjøre — bare trykk "Godkjenn og send" når du er klar. Hvis det er noe spesifikt — beskriv det, så vurderer jeg.'
+  },
+];
+
+const MARGIT_FALLBACK = {
+  verdict: 'neutral',
+  response: 'La meg tenke. Kan du være litt mer konkret? Er det fakta som mangler, tonen i brevet, eller en strategisk vurdering du lurer på?'
+};
+
+/**
+ * Parse freeform user requests for concrete letter edits.
+ * Returns either a direct action object or null if no match.
+ */
+function parseFreeformIntent(userInput, c) {
+  const text = userInput.trim();
+  if (!text || !c?.sentLetter) return null;
+
+  // ─── INTENT 1: Set greeting/opener — "(jeg vil/ønsker) start(e) (brevet) med X" ───
+  const startMatch = text.match(/(?:start(?:e|er)?|begynn(?:e|elsen|er)?|åpn(?:e|er|ing)?)\s+(?:(?:av\s+)?brevet\s+)?(?:med|som)\s+["']?([^"'.!?]+?)["'.!?]?\s*$/i);
+  if (startMatch) {
+    let newOpener = startMatch[1].trim().replace(/^[,.\s]+|[,.\s]+$/g, '');
+    if (newOpener.length > 0 && newOpener.length < 100) {
+      return {
+        verdict: 'partial',
+        response: `OK. Jeg kan starte brevet med <em>"${escapeHtml(newOpener)},"</em> som første linje. Det fungerer fint som hilsen — saksbehandlere er vant til det. Skal jeg gjøre det?`,
+        action: 'replace-opener',
+        actionLabel: `Ja, start brevet med "${newOpener}"`,
+        actionData: { opener: newOpener }
+      };
+    }
+  }
+
+  // ─── INTENT 2: "Endre/erstat X til/med Y" / "Bytt X med Y" ───
+  const replaceMatch = text.match(/(?:endre|bytt(?:e|er)?|erstat[t]?(?:e|er)?|skift(?:e|er)?|change)\s+["']?([^"']{2,80}?)["']?\s+(?:til|med|som|to|with)\s+["']?([^"'.!?]{1,100}?)["'.!?]?\s*$/i);
+  if (replaceMatch) {
+    const oldText = replaceMatch[1].trim();
+    const newText = replaceMatch[2].trim();
+    const allText = c.sentLetter.paragraphs.filter(p => typeof p === 'string').join(' ');
+    // Try exact match first, then word-level match
+    const found = allText.toLowerCase().includes(oldText.toLowerCase());
+    const partialFound = !found && oldText.split(/\s+/).every(w => 
+      w.length > 2 && allText.toLowerCase().includes(w.toLowerCase())
+    );
+    
+    if (found) {
+      return {
+        verdict: 'yes',
+        response: `Bra. Jeg bytter <em>"${escapeHtml(oldText)}"</em> med <em>"${escapeHtml(newText)}"</em> i brevet.`,
+        action: 'find-replace',
+        actionLabel: 'Ja, gjør endringen',
+        actionData: { oldText, newText }
+      };
+    } else if (partialFound) {
+      return {
+        verdict: 'partial',
+        response: `Jeg finner ikke <em>"${escapeHtml(oldText)}"</em> nøyaktig slik, men deler av det. Kan du sjekke akkurat hvordan det er skrevet i brevet, eller si fra hva du faktisk vil endre?`
+      };
+    } else {
+      return {
+        verdict: 'partial',
+        response: `Jeg finner ikke <em>"${escapeHtml(oldText)}"</em> i brevet. Kan du sjekke om det er nøyaktig slik du har skrevet det? Eller mener du noe annet?`
+      };
+    }
+  }
+
+  // ─── INTENT 3: "Legg til (setning/avsnitt) ..." / "Skriv at..." (freeform addition) ───
+  const addMatch = text.match(/(?:legg(?:e)?\s+til|inkluder|skriv(?:\s+(?:at|en\s+setning|inn|opp|en\s+linje))?|ta\s+med|nevn|tilfør|tilføy|si)\s+(?:en\s+(?:setning|linje)\s+(?:om\s+)?)?(?:om|at|som\s+sier)?\s*["']?([^"']{5,250})["']?[.!?]?$/i);
+  if (addMatch && !text.match(/(legg(?:e)? til\s+)?(bilde|foto|dokument|kvittering|bevis|e-?post|sms)/i)) {
+    let newSentence = addMatch[1].trim();
+    // Capitalize first letter, ensure ends with period
+    if (newSentence.length > 5) {
+      newSentence = newSentence.charAt(0).toUpperCase() + newSentence.slice(1);
+      if (!/[.!?]$/.test(newSentence)) newSentence += '.';
+      
+      // If user wrote "at jeg er X", convert to a proper sentence
+      // "at jeg er pensjonist" → "Jeg er pensjonist."
+      // already handled by capitalize + period
+      
+      return {
+        verdict: 'partial',
+        response: `OK. Jeg kan legge til denne setningen i brevet:<br><br><em>"${escapeHtml(newSentence)}"</em><br><br>Vil du jeg skal gjøre det? Vurder først om det styrker eller svekker saken — fakta uten juridisk relevans kan distrahere fra hovedpunktet.`,
+        action: 'add-custom-sentence',
+        actionLabel: 'Ja, legg til setningen',
+        actionData: { sentence: newSentence }
+      };
+    }
+  }
+
+  // ─── INTENT 4: "Fjern X" / "Slett Y" / "Ta bort Z" ───
+  const removeMatch = text.match(/(?:fjern|slett|ta\s+(?:bort|ut|vekk)|drop|kutt)\s+["']?([^"'.!?]{3,100}?)["'.!?]?\s*$/i);
+  if (removeMatch) {
+    const target = removeMatch[1].trim();
+    const found = c.sentLetter.paragraphs.some(p => 
+      typeof p === 'string' && p.toLowerCase().includes(target.toLowerCase())
+    );
+    if (found) {
+      return {
+        verdict: 'partial',
+        response: `Jeg kan fjerne setningen som inneholder <em>"${escapeHtml(target)}"</em>. Vurder først om det svekker argumentasjonen — hver setning har en juridisk funksjon. Skal jeg gjøre det?`,
+        action: 'remove-text',
+        actionLabel: 'Ja, fjern det',
+        actionData: { target }
+      };
+    } else {
+      return {
+        verdict: 'partial',
+        response: `Jeg finner ikke <em>"${escapeHtml(target)}"</em> i brevet — kanskje det er formulert annerledes? Si fra hva som er teksten du vil fjerne, så finner jeg den.`
+      };
+    }
+  }
+
+  // ─── INTENT 5: "Avslutt med X" / "Slutt med X" ───
+  const endMatch = text.match(/(?:avslutt|slutt|slut(?:ning|t)|end)(?:\s+brevet)?\s+(?:med|som)\s+["']?([^"'.!?]+?)["'.!?]?\s*$/i);
+  if (endMatch) {
+    const closer = endMatch[1].trim();
+    if (closer.length > 0 && closer.length < 100) {
+      return {
+        verdict: 'partial',
+        response: `OK. Jeg kan avslutte brevet med <em>"${escapeHtml(closer)}"</em> rett før signaturen. Skal jeg gjøre det?`,
+        action: 'replace-closer',
+        actionLabel: 'Ja, gjør endringen',
+        actionData: { closer }
+      };
+    }
+  }
+
+  return null;
+}
+
+function getMargitResponse(userInput, caseId) {
+  const text = userInput.trim();
+  if (!text) return MARGIT_FALLBACK;
+  
+  const c = caseId ? getCase(caseId) : null;
+  
+  // PRECEDENCE: If user uses an explicit edit verb (start, endre, bytt, fjern, avslutt, legg til, skriv at)
+  // — try freeform FIRST. These are concrete instructions.
+  const hasEditVerb = /\b(start(?:e|er)?|begynn(?:e|elsen|er)?|åpn(?:e|er|ing)?|endre|bytt(?:e|er)?|erstatt(?:e|er)?|skift(?:e|er)?|legg(?:e)?\s+til|inkluder|tilfør|tilføy|fjern|slett|ta\s+(?:bort|ut|vekk)|drop|kutt|avslutt|slutt(?:e|er)?|skriv\s+(?:at|om|en setning))\b/i.test(text);
+  
+  if (hasEditVerb && c) {
+    const freeform = parseFreeformIntent(text, c);
+    if (freeform) return freeform;
+  }
+  
+  // Otherwise, check the structured scenario library
+  for (const r of MARGIT_RESPONSES) {
+    if (r.match.test(text)) return r;
+  }
+  
+  // Last try freeform without strict verb requirement
+  if (c) {
+    const freeform = parseFreeformIntent(text, c);
+    if (freeform) return freeform;
+  }
+  
+  return MARGIT_FALLBACK;
+}
+
+function showMargitChatModal(caseId) {
+  const c = getCase(caseId);
+  if (!c) return;
+  window._activeMargitChatCaseId = caseId;
+  
+  // Initialize chat history if not already
+  if (!c.margitChat) {
+    c.margitChat = [{
+      from: 'margit',
+      text: 'Vil du at jeg endrer noe i brevet? Tone, fakta eller strategi — bare si fra. Jeg er ærlig om hva som faktisk hjelper saken.',
+      ts: new Date().toISOString()
+    }];
+    saveState();
+  }
+  
+  showModal(`
+    <div class="margit-chat-wrap">
+      <div class="margit-chat-header">
+        <div class="margit-chat-fig">${margitBust({ width: 36, height: 44 })}</div>
+        <div class="margit-chat-meta">
+          <div class="margit-chat-name">Margit</div>
+          <div class="margit-chat-role">Saksbehandler · Online</div>
+        </div>
+        <button class="margit-chat-close" onclick="closeModal()" aria-label="Lukk samtale">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      
+      <div class="margit-chat-body" id="margit-chat-body">
+        ${renderMargitChatHistory(c)}
+      </div>
+      
+      <div class="margit-chat-suggestions" id="margit-suggestions">
+        ${renderMargitSuggestions(c)}
+      </div>
+      
+      <div class="margit-chat-input-row">
+        <input type="text" id="margit-chat-input" class="margit-chat-input" placeholder="Skriv din melding..." autocomplete="off" aria-label="Skriv melding til Margit">
+        <button class="margit-chat-send" id="margit-chat-send" aria-label="Send">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  `, { tall: true });
+  
+  setTimeout(() => {
+    const input = document.getElementById('margit-chat-input');
+    const sendBtn = document.getElementById('margit-chat-send');
+    const body = document.getElementById('margit-chat-body');
+    if (body) body.scrollTop = body.scrollHeight;
+    
+    const handleSend = () => {
+      const text = input.value.trim();
+      if (!text) return;
+      sendMargitChatMessage(caseId, text);
+      input.value = '';
+      input.focus();
+    };
+    
+    if (sendBtn) sendBtn.addEventListener('click', handleSend);
+    if (input) {
+      input.addEventListener('keydown', e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleSend();
+        }
+      });
+      // Focus input after a tiny delay (modal animation)
+      setTimeout(() => input.focus(), 300);
+    }
+    
+    // Suggestion chips
+    document.querySelectorAll('.margit-suggestion-chip').forEach(chip => {
+      chip.addEventListener('click', () => {
+        const txt = chip.dataset.suggest;
+        if (input) input.value = txt;
+        handleSend();
+      });
+    });
+  }, 50);
+}
+
+/**
+ * Generate context-aware suggestion chips based on conversation history.
+ * Avoids suggesting topics already discussed; offers next logical questions.
+ */
+function renderMargitSuggestions(c) {
+  if (!c.margitChat) return '';
+  
+  // Track which topics have been discussed (matched a verdict)
+  const userMessages = c.margitChat.filter(m => m.from === 'user').map(m => m.text.toLowerCase());
+  const allText = userMessages.join(' ');
+  
+  // Suggestion library — each has a topic key, label, and trigger conditions
+  const allSuggestions = [
+    { topic: 'tone-firmer', label: 'Mer bestemt', text: 'Kan du gjøre brevet mer bestemt?',
+      skip: /(bestemt|sterkere|hardere|tøffere|krevende)/i.test(allText) },
+    { topic: 'evidence', label: 'Jeg har bilder', text: 'Jeg har bilde av situasjonen',
+      skip: /(bilde|foto|dokument|bevis)/i.test(allText) },
+    { topic: 'threats', label: 'Trusler?', text: 'Skal vi true med å gå til pressen?',
+      skip: /(true|press|aviser|media|saksøk)/i.test(allText) },
+    { topic: 'loyalty', label: 'Lojal kunde', text: 'Jeg har vært kunde i mange år',
+      skip: /(kunde|lojal|stamkunde|trofast)/i.test(allText) },
+    { topic: 'firsttime', label: 'Første gang', text: 'Dette er første gang jeg klager',
+      skip: /(første gang|aldri.*klag|aldri tidligere)/i.test(allText) },
+    { topic: 'softer', label: 'Mer vennlig', text: 'Kan du gjøre brevet mer vennlig?',
+      skip: /(mykere|vennlig|hyggelig|imøtekommende)/i.test(allText) },
+    { topic: 'odds', label: 'Sjanse for å vinne?', text: 'Hvor stor sjanse har vi for å vinne?',
+      skip: /(sjanse|sannsynlig|vinne|tape)/i.test(allText) },
+    { topic: 'next-step', label: 'Hvis de avviser?', text: 'Hva skjer hvis de avviser klagen?',
+      skip: /(avvis|hvis de|hva skjer)/i.test(allText) },
+    { topic: 'escalation', label: 'Eskalering', text: 'Burde vi nevne klagenemnd?',
+      skip: /(klagenemnd|forbrukertilsyn|eskaler)/i.test(allText) },
+  ];
+  
+  // Show 3 chips that haven't been used yet, prioritizing relevant ones
+  const available = allSuggestions.filter(s => !s.skip);
+  const shown = available.slice(0, 3);
+  
+  if (shown.length === 0) {
+    // All topics covered — show a closing suggestion
+    return `<button class="margit-suggestion-chip" data-suggest="Brevet ser bra ut.">Brevet ser bra ut</button>`;
+  }
+  
+  return shown.map(s => 
+    `<button class="margit-suggestion-chip" data-suggest="${escapeHtml(s.text)}">${escapeHtml(s.label)}</button>`
+  ).join('');
+}
+
+function renderMargitChatHistory(c) {
+  if (!c.margitChat) return '';
+  return c.margitChat.map((msg, idx) => {
+    if (msg.from === 'margit') {
+      const verdictClass = msg.verdict ? `verdict-${msg.verdict}` : '';
+      const verdictLabel = {
+        yes: { label: 'Ja, godt poeng', color: 'green' },
+        no: { label: 'Nei, det hjelper ikke', color: 'red' },
+        partial: { label: 'Ja og nei', color: 'amber' },
+        neutral: { label: '', color: 'ink' }
+      }[msg.verdict] || { label: '', color: 'ink' };
+      
+      // Action button — only on the most recent action message that hasn't been applied
+      const showAction = msg.action && !msg.actionApplied && idx === c.margitChat.length - 1;
+      const actionLabelMap = {
+        'tone-firmer': 'Ja, gjør det mer bestemt',
+        'tone-softer': 'Ja, gjør den mykere',
+        'tone-formal': 'Ja, gjør den mer juridisk',
+        'add-evidence': 'Ja, legg til dokumentasjon',
+        'add-loyalty': 'Ja, legg til kunde-historikken',
+        'add-firsttime': 'Ja, legg til at det er første gang',
+        'add-escalation-note': 'Ja, legg til eskalering'
+      };
+      
+      const appliedTag = msg.actionApplied ? `
+        <div class="margit-msg-applied">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+          <span>Endring anvendt på brevet</span>
+          <button class="margit-msg-undo" data-undo-margit-change data-msg-idx="${idx}">Angre</button>
+        </div>
+      ` : '';
+      
+      return `
+        <div class="margit-msg margit-msg-margit ${verdictClass}">
+          <div class="margit-msg-fig">${margitBust({ width: 28, height: 34 })}</div>
+          <div class="margit-msg-bubble">
+            ${msg.verdict && verdictLabel.label ? `
+              <div class="margit-msg-verdict verdict-${verdictLabel.color}">★ ${verdictLabel.label} ★</div>
+            ` : ''}
+            <div class="margit-msg-text">${msg.text}</div>
+            ${showAction ? `
+              <div class="margit-msg-actions">
+                <button class="margit-action-btn" data-apply-action="${msg.action}" data-msg-idx="${idx}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                  ${escapeHtml(msg.actionLabel || actionLabelMap[msg.action] || 'Anvend endring')}
+                </button>
+              </div>
+            ` : ''}
+            ${appliedTag}
+          </div>
+        </div>
+      `;
+    } else {
+      return `
+        <div class="margit-msg margit-msg-user">
+          <div class="margit-msg-bubble margit-msg-bubble-user">${escapeHtml(msg.text)}</div>
+        </div>
+      `;
+    }
+  }).join('');
+}
+
+function sendMargitChatMessage(caseId, userText) {
+  const c = getCase(caseId);
+  if (!c) return;
+  
+  // Add user message
+  c.margitChat.push({
+    from: 'user',
+    text: userText,
+    ts: new Date().toISOString()
+  });
+  saveState();
+  
+  // Re-render
+  const body = document.getElementById('margit-chat-body');
+  if (body) {
+    body.innerHTML = renderMargitChatHistory(c);
+    body.scrollTop = body.scrollHeight;
+  }
+  
+  // Show typing indicator
+  setTimeout(() => {
+    const body2 = document.getElementById('margit-chat-body');
+    if (body2) {
+      body2.innerHTML += `
+        <div class="margit-msg margit-msg-margit margit-typing">
+          <div class="margit-msg-fig">${margitBust({ width: 28, height: 34 })}</div>
+          <div class="margit-msg-bubble margit-typing-bubble">
+            <span></span><span></span><span></span>
+          </div>
+        </div>
+      `;
+      body2.scrollTop = body2.scrollHeight;
+    }
+  }, 200);
+  
+  // Margit's response after typing delay
+  setTimeout(() => {
+    const resp = getMargitResponse(userText, caseId);
+    c.margitChat.push({
+      from: 'margit',
+      text: resp.response,
+      verdict: resp.verdict,
+      action: resp.action,
+      actionLabel: resp.actionLabel,
+      actionData: resp.actionData,
+      ts: new Date().toISOString()
+    });
+    saveState();
+    
+    // Re-render messages
+    const body3 = document.getElementById('margit-chat-body');
+    if (body3) {
+      body3.innerHTML = renderMargitChatHistory(c);
+      body3.scrollTop = body3.scrollHeight;
+    }
+    
+    // Re-render suggestion chips based on new context
+    const suggestions = document.getElementById('margit-suggestions');
+    if (suggestions) {
+      suggestions.innerHTML = renderMargitSuggestions(c);
+      // Re-bind handlers for new chips
+      suggestions.querySelectorAll('.margit-suggestion-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const txt = chip.dataset.suggest;
+          const input = document.getElementById('margit-chat-input');
+          if (input) {
+            input.value = txt;
+            sendMargitChatMessage(caseId, txt);
+            input.value = '';
+            input.focus();
+          }
+        });
+      });
+    }
+    
+    hapticFeedback('light');
+  }, 1100);
+}
+
+/**
+ * Apply Margit's action to the letter — actually modify c.sentLetter
+ * with visible diff highlight in the preview.
+ */
+function applyMargitAction(caseId, action, msgIdx) {
+  const c = getCase(caseId);
+  if (!c || !c.sentLetter) return;
+  const msg = c.margitChat[msgIdx];  // for actionData on freeform actions
+  
+  // Snapshot the letter before changing — for undo
+  if (!c._letterUndoStack) c._letterUndoStack = [];
+  c._letterUndoStack.push(JSON.parse(JSON.stringify(c.sentLetter)));
+  // Limit undo stack to 5
+  if (c._letterUndoStack.length > 5) c._letterUndoStack.shift();
+  
+  // Track which paragraphs are new/changed for highlight
+  let changedIndices = [];
+  
+  switch (action) {
+    case 'tone-firmer': {
+      // Replace softer phrases with firmer ones
+      c.sentLetter.paragraphs = c.sentLetter.paragraphs.map((p, idx) => {
+        if (typeof p !== 'string') return p;
+        const original = p;
+        let modified = p
+          .replace(/jeg ber om/gi, 'jeg krever')
+          .replace(/Jeg ber om/g, 'Jeg krever')
+          .replace(/Tilsvar bes/g, 'Tilsvar kreves')
+          .replace(/ber jeg om/gi, 'krever jeg')
+          .replace(/Jeg ber videre om at/g, 'Jeg krever videre at')
+          .replace(/ber om at/gi, 'krever at');
+        if (modified !== original) changedIndices.push(idx);
+        return modified;
+      });
+      break;
+    }
+    case 'tone-softer': {
+      // Add a softening opening if not already there
+      const opener = 'Jeg forstår at dere har en jobb å gjøre, og jeg setter pris på saksbehandlingen.';
+      if (!c.sentLetter.paragraphs.some(p => typeof p === 'string' && p.includes('forstår at dere'))) {
+        c.sentLetter.paragraphs.unshift(opener);
+        changedIndices.push(0);
+      }
+      break;
+    }
+    case 'tone-formal': {
+      // Add a formal legal reference paragraph
+      const legalRef = 'Jeg viser til relevant lovgrunnlag og praksis fra klagenemnden, og forventer at saken behandles i tråd med disse.';
+      const idx = c.sentLetter.paragraphs.length - 1; // before signature
+      c.sentLetter.paragraphs.splice(idx, 0, legalRef);
+      changedIndices.push(idx);
+      break;
+    }
+    case 'add-evidence': {
+      const sentence = 'Dokumentasjon (bilder, e-post, kvitteringer) er tilgjengelig og kan ettersendes på forespørsel.';
+      if (!c.sentLetter.paragraphs.some(p => typeof p === 'string' && p.includes('Dokumentasjon'))) {
+        const idx = c.sentLetter.paragraphs.length - 1;
+        c.sentLetter.paragraphs.splice(idx, 0, sentence);
+        changedIndices.push(idx);
+      }
+      break;
+    }
+    case 'add-loyalty': {
+      const yearsBack = Math.floor(Math.random() * 10) + 3;
+      const startYear = new Date().getFullYear() - yearsBack;
+      const sentence = `Jeg har vært kunde hos dere siden ${startYear} og setter pris på et godt forhold.`;
+      if (!c.sentLetter.paragraphs.some(p => typeof p === 'string' && p.includes('vært kunde hos dere'))) {
+        const idx = c.sentLetter.paragraphs.length - 1;
+        c.sentLetter.paragraphs.splice(idx, 0, sentence);
+        changedIndices.push(idx);
+      }
+      break;
+    }
+    case 'add-firsttime': {
+      const sentence = 'Dette er første gang jeg klager på et krav fra dere.';
+      if (!c.sentLetter.paragraphs.some(p => typeof p === 'string' && p.includes('første gang jeg klager'))) {
+        const idx = c.sentLetter.paragraphs.length - 1;
+        c.sentLetter.paragraphs.splice(idx, 0, sentence);
+        changedIndices.push(idx);
+      }
+      break;
+    }
+    case 'add-escalation-note': {
+      const ct = CASE_TYPES[c.type];
+      const escalation = ct?.escalationOrg || 'Forbrukertilsynet';
+      const sentence = `Hvis kravet ikke frafalles, vil saken bli eskalert til ${escalation}.`;
+      if (!c.sentLetter.paragraphs.some(p => typeof p === 'string' && p.includes('eskalert til'))) {
+        const idx = c.sentLetter.paragraphs.length - 1;
+        c.sentLetter.paragraphs.splice(idx, 0, sentence);
+        changedIndices.push(idx);
+      }
+      break;
+    }
+    
+    // ─── FREEFORM ACTIONS ───
+    case 'replace-opener': {
+      // Insert greeting as first paragraph (or replace existing greeting)
+      const opener = msg.actionData?.opener;
+      if (opener) {
+        const greetingLine = `${opener},`;
+        // Check if first paragraph looks like a greeting (short, ends with comma)
+        const firstP = c.sentLetter.paragraphs[0];
+        const isGreeting = typeof firstP === 'string' && firstP.length < 40 && /[,]$/.test(firstP.trim());
+        if (isGreeting) {
+          c.sentLetter.paragraphs[0] = greetingLine;
+          changedIndices.push(0);
+        } else {
+          c.sentLetter.paragraphs.unshift(greetingLine);
+          changedIndices.push(0);
+        }
+      }
+      break;
+    }
+    case 'replace-closer': {
+      // Add closing line just before signature (last paragraph is typically subject/signoff)
+      const closer = msg.actionData?.closer;
+      if (closer) {
+        const closingLine = closer.endsWith('.') ? closer : closer + '.';
+        const idx = c.sentLetter.paragraphs.length - 1;
+        c.sentLetter.paragraphs.splice(idx, 0, closingLine);
+        changedIndices.push(idx);
+      }
+      break;
+    }
+    case 'find-replace': {
+      const oldText = msg.actionData?.oldText;
+      const newText = msg.actionData?.newText;
+      if (oldText && newText) {
+        c.sentLetter.paragraphs = c.sentLetter.paragraphs.map((p, idx) => {
+          if (typeof p !== 'string') return p;
+          if (p.toLowerCase().includes(oldText.toLowerCase())) {
+            // Case-insensitive replace, but preserve case of replacement
+            const re = new RegExp(oldText.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+            const modified = p.replace(re, newText);
+            if (modified !== p) {
+              changedIndices.push(idx);
+              return modified;
+            }
+          }
+          return p;
+        });
+      }
+      break;
+    }
+    case 'add-custom-sentence': {
+      const sentence = msg.actionData?.sentence;
+      if (sentence) {
+        // Add before signature/last block
+        const idx = Math.max(0, c.sentLetter.paragraphs.length - 1);
+        c.sentLetter.paragraphs.splice(idx, 0, sentence);
+        changedIndices.push(idx);
+      }
+      break;
+    }
+    case 'remove-text': {
+      const target = msg.actionData?.target;
+      if (target) {
+        const targetLower = target.toLowerCase();
+        // Remove paragraphs that contain the target text
+        const newParas = [];
+        c.sentLetter.paragraphs.forEach((p) => {
+          if (typeof p === 'string' && p.toLowerCase().includes(targetLower)) {
+            // Skip — it's removed. But mark adjacent index as changed for visual feedback
+            return;
+          }
+          newParas.push(p);
+        });
+        c.sentLetter.paragraphs = newParas;
+        // Highlight where it was (approximate)
+        changedIndices.push(0);
+      }
+      break;
+    }
+  }
+  
+  // Mark message as applied
+  if (c.margitChat[msgIdx]) {
+    c.margitChat[msgIdx].actionApplied = true;
+  }
+  
+  // Track changed indices for visual highlight
+  c._lastChangedIndices = changedIndices;
+  
+  saveState();
+  
+  // Visual feedback in modal
+  const body = document.getElementById('margit-chat-body');
+  if (body) {
+    body.innerHTML = renderMargitChatHistory(c);
+    body.scrollTop = body.scrollHeight;
+  }
+  
+  // Add follow-up Margit message confirming
+  setTimeout(() => {
+    c.margitChat.push({
+      from: 'margit',
+      text: 'Endringen er anvendt på brevet. Lukk samtalen for å se resultatet — endringene er markert med gult.',
+      verdict: 'yes',
+      ts: new Date().toISOString()
+    });
+    saveState();
+    const body2 = document.getElementById('margit-chat-body');
+    if (body2) {
+      body2.innerHTML = renderMargitChatHistory(c);
+      body2.scrollTop = body2.scrollHeight;
+    }
+  }, 600);
+  
+  hapticFeedback('medium');
+  showToast('Brevet er oppdatert');
+}
+
+/**
+ * Undo the last Margit modification — restore the previous letter snapshot.
+ */
+function undoMargitChange(caseId) {
+  const c = getCase(caseId);
+  if (!c || !c._letterUndoStack || c._letterUndoStack.length === 0) {
+    showToast('Ingen endringer å angre');
+    return;
+  }
+  c.sentLetter = c._letterUndoStack.pop();
+  c._lastChangedIndices = [];
+  // Reset the most recently applied action flag
+  for (let i = c.margitChat.length - 1; i >= 0; i--) {
+    if (c.margitChat[i].actionApplied) {
+      c.margitChat[i].actionApplied = false;
+      break;
+    }
+  }
+  saveState();
+  showToast('Endring angret');
+  hapticFeedback('light');
+  
+  // Re-render if chat modal is open
+  const body = document.getElementById('margit-chat-body');
+  if (body) {
+    body.innerHTML = renderMargitChatHistory(c);
+  }
+  // Refresh draft if open
+  if (router.currentScreen?.name === 'draft') {
+    router.reset('draft', { id: caseId });
+  }
+}
+
+/**
+ * Edit a single paragraph of the letter directly. User can change any paragraph.
+ * Pushes to same undo stack as Margit edits.
+ */
+function showEditParagraphModal(caseId, paragraphIdx) {
+  const c = getCase(caseId);
+  if (!c || !c.sentLetter) return;
+  const para = c.sentLetter.paragraphs[paragraphIdx];
+  if (para === undefined) return;
+  
+  // For bullets, we present the items as a textarea (one per line)
+  const isBullets = typeof para === 'object' && para.type === 'bullets';
+  const initialText = isBullets ? para.items.join('\n') : (typeof para === 'string' ? para : '');
+  
+  showModal(`
+    <div class="modal-eyebrow">REDIGER ${isBullets ? 'PUNKTLISTE' : 'AVSNITT'}</div>
+    <h3>Endre teksten</h3>
+    <p>Skriv om avsnittet slik du vil ha det. Margit kan ikke vurdere endringen, så pass på at det fortsatt er sant og relevant.</p>
+    
+    <textarea id="paragraph-edit-textarea" class="paragraph-edit-textarea" rows="6"${isBullets ? ' data-bullets="1"' : ''}>${escapeHtml(initialText)}</textarea>
+    ${isBullets ? '<div class="paragraph-edit-hint">Hver linje blir et punkt</div>' : ''}
+    
+    <div class="modal-actions" style="margin-top: 18px;">
+      <button class="btn btn-primary" id="paragraph-save-btn">Lagre endring</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Avbryt</button>
+      <button class="paragraph-edit-delete" id="paragraph-delete-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+        Slett avsnittet
+      </button>
+    </div>
+  `);
+  
+  setTimeout(() => {
+    const textarea = document.getElementById('paragraph-edit-textarea');
+    const saveBtn = document.getElementById('paragraph-save-btn');
+    const deleteBtn = document.getElementById('paragraph-delete-btn');
+    
+    if (textarea) {
+      textarea.focus();
+      // Place cursor at end
+      textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+      // Auto-resize
+      const resize = () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = Math.min(textarea.scrollHeight, 300) + 'px';
+      };
+      resize();
+      textarea.addEventListener('input', resize);
+    }
+    
+    if (saveBtn) {
+      saveBtn.addEventListener('click', () => {
+        const newText = textarea.value.trim();
+        if (!newText) {
+          showToast('Avsnittet kan ikke være tomt');
+          return;
+        }
+        applyParagraphEdit(caseId, paragraphIdx, newText, isBullets);
+      });
+    }
+    
+    if (deleteBtn) {
+      deleteBtn.addEventListener('click', () => {
+        deleteParagraph(caseId, paragraphIdx);
+      });
+    }
+    
+    // Cmd/Ctrl+Enter saves
+    if (textarea) {
+      textarea.addEventListener('keydown', (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+          e.preventDefault();
+          saveBtn?.click();
+        }
+      });
+    }
+  }, 50);
+}
+
+function applyParagraphEdit(caseId, idx, newText, isBullets) {
+  const c = getCase(caseId);
+  if (!c || !c.sentLetter) return;
+  
+  // Snapshot for undo
+  if (!c._letterUndoStack) c._letterUndoStack = [];
+  c._letterUndoStack.push(JSON.parse(JSON.stringify(c.sentLetter)));
+  if (c._letterUndoStack.length > 5) c._letterUndoStack.shift();
+  
+  if (isBullets) {
+    const items = newText.split('\n').map(s => s.trim()).filter(s => s);
+    c.sentLetter.paragraphs[idx] = { type: 'bullets', items };
+  } else {
+    c.sentLetter.paragraphs[idx] = newText;
+  }
+  
+  c._lastChangedIndices = [idx];
+  saveState();
+  closeModal();
+  
+  showToast('Avsnittet er oppdatert');
+  hapticFeedback('medium');
+  
+  // Refresh draft if open
+  if (router.currentScreen?.name === 'draft') {
+    router.reset('draft', { id: caseId });
+  }
+}
+
+function deleteParagraph(caseId, idx) {
+  const c = getCase(caseId);
+  if (!c || !c.sentLetter) return;
+  
+  // Snapshot for undo
+  if (!c._letterUndoStack) c._letterUndoStack = [];
+  c._letterUndoStack.push(JSON.parse(JSON.stringify(c.sentLetter)));
+  if (c._letterUndoStack.length > 5) c._letterUndoStack.shift();
+  
+  c.sentLetter.paragraphs.splice(idx, 1);
+  c._lastChangedIndices = [];
+  saveState();
+  closeModal();
+  
+  showToast('Avsnittet er fjernet');
+  hapticFeedback('medium');
+  
+  if (router.currentScreen?.name === 'draft') {
+    router.reset('draft', { id: caseId });
+  }
+}
+
 
 function showSentLetterModal(id) {
   const c = getCase(id);
@@ -10892,6 +12660,36 @@ function showEditFactModal(key, label) {
   const u = state.user;
   const currentVal = u[key] || '';
   const isPersonnummer = key === 'personnummer';
+  
+  // E-post and name are verified through BankID — locked when verifiedVia is bankid
+  const isBankIdLocked = (key === 'email' || key === 'name') && u.verifiedVia === 'bankid';
+  
+  if (isBankIdLocked) {
+    showModal(`
+      <div class="modal-eyebrow">BANKID-VERIFISERT</div>
+      <h3>${escapeHtml(label)} kan ikke endres</h3>
+      <div class="modal-margit-row">
+        <div class="modal-margit-fig">${margitBust({ width: 36, height: 44 })}</div>
+        <div class="modal-margit-speech">
+          ${key === 'email' 
+            ? 'E-postadressen din er hentet fra BankID og kan ikke endres her. Kontakt BankID-utstederen din om du må oppdatere den.'
+            : 'Navnet ditt er hentet fra Folkeregisteret via BankID og kan ikke endres. Det sikrer at brevet sendes i ditt verifiserte navn.'}
+        </div>
+      </div>
+      <div class="fact-locked-value">
+        <div class="fact-locked-label">${escapeHtml(label).toUpperCase()}</div>
+        <div class="fact-locked-text">${escapeHtml(currentVal)}</div>
+      </div>
+      <div class="modal-actions" style="margin-top: 18px;">
+        <button class="btn btn-primary" onclick="closeModal()">Forstått</button>
+      </div>
+    `);
+    return;
+  }
+  
+  // Optional fields can be deleted
+  const canDelete = !!currentVal && !['name', 'email'].includes(key);
+  
   showModal(`
     <div class="modal-eyebrow">REDIGER FAKTA</div>
     <h3>${escapeHtml(label)}</h3>
@@ -10902,19 +12700,35 @@ function showEditFactModal(key, label) {
     <div class="modal-actions" style="margin-top: 24px;">
       <button class="btn btn-primary" id="fact-save">Lagre</button>
       <button class="btn btn-ghost" onclick="closeModal()">Avbryt</button>
+      ${canDelete ? `
+        <button class="paragraph-edit-delete" id="fact-delete">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          Slett verdi
+        </button>
+      ` : ''}
     </div>
   `);
   setTimeout(() => {
     const input = document.getElementById('fact-edit-input');
     const btn = document.getElementById('fact-save');
+    const deleteBtn = document.getElementById('fact-delete');
     if (input) { input.focus(); input.select(); }
-    if (btn) btn.addEventListener('click', () => {
-      const val = input.value.trim();
-      state.user[key] = val;
+    
+    const saveValue = (newVal) => {
+      state.user[key] = newVal;
       saveState();
       closeModal();
-      router.reset('profile');
+      // Inline update — do NOT re-render the whole profile screen
+      updateProfileFactInDOM(key, newVal, label);
       showToast('Lagret');
+    };
+    
+    if (btn) btn.addEventListener('click', () => {
+      const val = input.value.trim();
+      saveValue(val);
+    });
+    if (deleteBtn) deleteBtn.addEventListener('click', () => {
+      saveValue('');
     });
     if (input) input.addEventListener('keydown', e => {
       if (e.key === 'Enter') btn.click();
@@ -10922,11 +12736,91 @@ function showEditFactModal(key, label) {
   }, 0);
 }
 
+/**
+ * Update a profile fact value in the DOM without re-rendering.
+ * Preserves scroll position.
+ */
+function updateProfileFactInDOM(key, newValue, label) {
+  // Find the row by data-key
+  const row = document.querySelector(`[data-action="edit-fact"][data-key="${key}"]`);
+  if (!row) return;
+  
+  const valueEl = row.querySelector('.profile-fact-value');
+  if (!valueEl) return;
+  
+  const isPersonnummer = key === 'personnummer';
+  const displayValue = isPersonnummer && newValue ? maskPersonnummer(newValue) : newValue;
+  
+  if (displayValue) {
+    valueEl.textContent = displayValue;
+    valueEl.classList.remove('empty');
+  } else {
+    valueEl.textContent = 'Ikke oppgitt';
+    valueEl.classList.add('empty');
+  }
+  
+  // Brief flash to indicate the change
+  row.classList.add('profile-fact-flash');
+  setTimeout(() => row.classList.remove('profile-fact-flash'), 800);
+}
+
 
 // ============================================================
 // CENTRAL ACTION HANDLER
 // ============================================================
+// Keyboard support: Enter or Space on editable paragraph triggers edit
+document.addEventListener('keydown', (e) => {
+  if (e.key !== 'Enter' && e.key !== ' ') return;
+  const editPara = e.target.closest('[data-edit-idx]');
+  if (editPara) {
+    e.preventDefault();
+    const idx = parseInt(editPara.dataset.editIdx, 10);
+    const caseId = editPara.dataset.editCase;
+    if (!isNaN(idx) && caseId) showEditParagraphModal(caseId, idx);
+  }
+});
+// ============================================================
 document.addEventListener('click', (e) => {
+  // Handle Margit "Anvend endring" buttons
+  const applyBtn = e.target.closest('[data-apply-action]');
+  if (applyBtn) {
+    e.preventDefault();
+    e.stopPropagation();
+    const action = applyBtn.dataset.applyAction;
+    const msgIdx = parseInt(applyBtn.dataset.msgIdx, 10);
+    // Get current case from open modal context
+    const currentCaseId = window._activeMargitChatCaseId;
+    if (currentCaseId) {
+      applyMargitAction(currentCaseId, action, msgIdx);
+    }
+    return;
+  }
+  
+  // Handle Margit "Angre" buttons
+  const undoBtn = e.target.closest('[data-undo-margit-change]');
+  if (undoBtn) {
+    e.preventDefault();
+    e.stopPropagation();
+    const currentCaseId = window._activeMargitChatCaseId;
+    if (currentCaseId) {
+      undoMargitChange(currentCaseId);
+    }
+    return;
+  }
+  
+  // Handle direct paragraph editing
+  const editPara = e.target.closest('[data-edit-idx]');
+  if (editPara) {
+    e.preventDefault();
+    e.stopPropagation();
+    const idx = parseInt(editPara.dataset.editIdx, 10);
+    const caseId = editPara.dataset.editCase;
+    if (!isNaN(idx) && caseId) {
+      showEditParagraphModal(caseId, idx);
+    }
+    return;
+  }
+  
   const target = e.target.closest('[data-action]');
   if (!target) {
     // Handle copyable elements separately
@@ -11143,6 +13037,10 @@ document.addEventListener('click', (e) => {
 
     case 'show-legal':
       showLegalModal();
+      break;
+
+    case 'open-margit-chat':
+      showMargitChatModal(id);
       break;
 
     case 'show-help':
